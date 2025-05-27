@@ -5,58 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sweet Treats</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Adding Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
   <header>
     <h1>Sweet Treats 🍬</h1>
-    <p>Craving something sweet? We’ve got you covered!</p>
+    <p>Craving something sweet? We've got you covered!</p>
+    <!-- WhatsApp floating button -->
+    <a href="https://wa.me/91YOURPHONENUMBER" class="whatsapp-float" target="_blank">
+      <i class="fab fa-whatsapp"></i> Order Now
+    </a>
   </header>
 
-  <!-- 🔍 Search Bar Only -->
+  <!-- 🔍 Search Bar -->
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search for sweets...">
   </div>
 
   <!-- 🌟 Featured Sweet Section -->
   <section class="featured">
-    <h2>🌟 Featured Sweet of the Day</h2>
+    <h2>🌟 Today's Special</h2>
     <div class="card">
-      <h3>Gulab Jamun</h3>
-      <p>Soft, spongy & soaked in syrup — everyone’s favorite!</p>
+      <img src="https://via.placeholder.com/300x200?text=Gulab+Jamun" alt="Gulab Jamun">
+      <div class="card-content">
+        <h3>Gulab Jamun</h3>
+        <p>Soft, spongy & soaked in syrup — everyone's favorite!</p>
+        <p class="price">₹199 (500g)</p>
+        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Gulab Jamun')">
+          <i class="fas fa-shopping-cart"></i> Order Now
+        </button>
+      </div>
     </div>
   </section>
 
-  <!-- 🧾 Order Form -->
-  <section class="order-form">
-    <h2>📦 Place Your Order</h2>
-    <form action="#" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <select name="sweet" required>
-        <option disabled selected>Select a sweet</option>
-        <option>Rasgulla</option>
-        <option>Ladoo</option>
-        <option>Gulab Jamun</option>
-        <option>Barfi</option>
-        <option>Kaju Katli</option>
-        <option>Jalebi</option>
-      </select>
-      <input type="number" name="quantity" placeholder="Quantity (e.g. 1 Kg)" required>
-      <input type="tel" name="contact" placeholder="Phone or WhatsApp number" required>
-      <textarea name="message" placeholder="Any special requests?"></textarea>
-      <button type="submit" disabled>Submit (Email not connected yet)</button>
-    </form>
+  <!-- 🍬 Product Grid -->
+  <section class="products">
+    <h2>Our Sweet Collection</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://via.placeholder.com/200x150?text=Rasgulla" alt="Rasgulla">
+        <h3>Rasgulla</h3>
+        <p class="price">₹179 (500g)</p>
+        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Rasgulla')">
+          <i class="fas fa-shopping-cart"></i> Order
+        </button>
+      </div>
+      <div class="product-card">
+        <img src="https://via.placeholder.com/200x150?text=Ladoo" alt="Ladoo">
+        <h3>Ladoo</h3>
+        <p class="price">₹159 (500g)</p>
+        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Ladoo')">
+          <i class="fas fa-shopping-cart"></i> Order
+        </button>
+      </div>
+      <div class="product-card">
+        <img src="https://via.placeholder.com/200x150?text=Barfi" alt="Barfi">
+        <h3>Barfi</h3>
+        <p class="price">₹189 (500g)</p>
+        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Barfi')">
+          <i class="fas fa-shopping-cart"></i> Order
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📞 Contact Section -->
+  <section class="contact">
+    <h2>📞 How to Reach Us</h2>
+    <div class="contact-methods">
+      <div class="contact-card">
+        <i class="fas fa-phone"></i>
+        <h3>Call Us</h3>
+        <p><a href="tel:+91YOURPHONENUMBER">+91 YOURPHONENUMBER</a></p>
+      </div>
+      <div class="contact-card">
+        <i class="fab fa-whatsapp"></i>
+        <h3>WhatsApp</h3>
+        <p><a href="https://wa.me/91YOURPHONENUMBER">Click to Chat</a></p>
+      </div>
+      <div class="contact-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Visit Us</h3>
+        <p>Your Shop Address Here</p>
+      </div>
+    </div>
   </section>
 
   <footer>
     <p>© 2025 Sweet Treats. All rights reserved.</p>
   </footer>
 
-  <!-- No dropdown logic needed anymore -->
   <script>
+    // Simple search functionality
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', () => {
-      // Placeholder for future functionality (e.g., filter cards or list)
-      console.log("User searched:", searchInput.value);
+      const searchTerm = searchInput.value.toLowerCase();
+      // This will be enhanced later to filter products
+      console.log("Searching for:", searchTerm);
     });
   </script>
 </body>
