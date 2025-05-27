@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sweet Treats</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Adding Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
   <header>
     <h1>Sweet Treats 🍬</h1>
-    <p>Craving something sweet? We've got you covered!</p>
+    <p>Handcrafted traditional sweets made with love</p>
     <!-- WhatsApp floating button -->
     <a href="https://wa.me/91YOURPHONENUMBER" class="whatsapp-float" target="_blank">
       <i class="fab fa-whatsapp"></i> Order Now
@@ -27,11 +26,11 @@
   <section class="featured">
     <h2>🌟 Today's Special</h2>
     <div class="card">
-      <img src="https://via.placeholder.com/300x200?text=Gulab+Jamun" alt="Gulab Jamun">
+      <img src="https://source.unsplash.com/random/600x400/?gulab-jamun" alt="Gulab Jamun">
       <div class="card-content">
-        <h3>Gulab Jamun</h3>
-        <p>Soft, spongy & soaked in syrup — everyone's favorite!</p>
-        <p class="price">₹199 (500g)</p>
+        <h3>Premium Gulab Jamun</h3>
+        <p>Our signature soft, spongy sweets soaked in rose-scented syrup</p>
+        <div class="price">₹199 (500g) | ₹350 (1kg)</div>
         <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Gulab Jamun')">
           <i class="fas fa-shopping-cart"></i> Order Now
         </button>
@@ -44,25 +43,25 @@
     <h2>Our Sweet Collection</h2>
     <div class="product-grid">
       <div class="product-card">
-        <img src="https://via.placeholder.com/200x150?text=Rasgulla" alt="Rasgulla">
-        <h3>Rasgulla</h3>
-        <p class="price">₹179 (500g)</p>
+        <img src="https://source.unsplash.com/random/300x200/?rasgulla" alt="Rasgulla">
+        <h3>Bengali Rasgulla</h3>
+        <div class="price">₹179 (500g)</div>
         <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Rasgulla')">
           <i class="fas fa-shopping-cart"></i> Order
         </button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/200x150?text=Ladoo" alt="Ladoo">
-        <h3>Ladoo</h3>
-        <p class="price">₹159 (500g)</p>
+        <img src="https://source.unsplash.com/random/300x200/?ladoo" alt="Ladoo">
+        <h3>Besan Ladoo</h3>
+        <div class="price">₹159 (500g)</div>
         <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Ladoo')">
           <i class="fas fa-shopping-cart"></i> Order
         </button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/200x150?text=Barfi" alt="Barfi">
-        <h3>Barfi</h3>
-        <p class="price">₹189 (500g)</p>
+        <img src="https://source.unsplash.com/random/300x200/?barfi" alt="Barfi">
+        <h3>Kaju Barfi</h3>
+        <div class="price">₹249 (500g)</div>
         <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Barfi')">
           <i class="fas fa-shopping-cart"></i> Order
         </button>
@@ -72,10 +71,10 @@
 
   <!-- 📞 Contact Section -->
   <section class="contact">
-    <h2>📞 How to Reach Us</h2>
+    <h2>📞 Contact Us</h2>
     <div class="contact-methods">
       <div class="contact-card">
-        <i class="fas fa-phone"></i>
+        <i class="fas fa-phone-alt"></i>
         <h3>Call Us</h3>
         <p><a href="tel:+91YOURPHONENUMBER">+91 YOURPHONENUMBER</a></p>
       </div>
@@ -87,8 +86,21 @@
       <div class="contact-card">
         <i class="fas fa-map-marker-alt"></i>
         <h3>Visit Us</h3>
-        <p>Your Shop Address Here</p>
+        <p>123 Sweet Street, Dessert Town</p>
       </div>
+    </div>
+  </section>
+
+  <!-- 🕒 Business Hours -->
+  <section class="hours">
+    <h2>🕒 Opening Hours</h2>
+    <div class="hours-grid">
+      <div class="day">Monday - Friday</div>
+      <div class="time">9:00 AM - 8:00 PM</div>
+      <div class="day">Saturday</div>
+      <div class="time">9:00 AM - 9:00 PM</div>
+      <div class="day">Sunday</div>
+      <div class="time">10:00 AM - 6:00 PM</div>
     </div>
   </section>
 
@@ -101,8 +113,8 @@
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', () => {
       const searchTerm = searchInput.value.toLowerCase();
-      // This will be enhanced later to filter products
       console.log("Searching for:", searchTerm);
+      // Will implement actual search functionality later
     });
   </script>
 </body>
