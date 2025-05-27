@@ -29,30 +29,32 @@ p {
   margin-top: 10px;
 }
 
+/* 🎯 Stylish Search Bar */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
 .search-bar input {
-  padding: 12px;
+  padding: 15px 20px;
   width: 80%;
-  max-width: 400px;
-  margin: 20px auto;
+  max-width: 450px;
   border: none;
-  border-radius: 30px;
-  font-size: 1rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
   outline: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  background: linear-gradient(135deg, #fff8e1, #ffe0b2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.dropdown-section select {
-  padding: 12px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  margin: 10px 0;
-  background: linear-gradient(135deg, #ffecd2, #fcb69f);
-  color: #333;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+.search-bar input:focus {
+  box-shadow: 0 0 12px 3px #ff9800;
+  background: #fff3e0;
 }
 
+/* 🌟 Featured Sweet Section */
 .featured {
   margin-top: 40px;
 }
@@ -87,23 +89,7 @@ p {
   color: #555;
 }
 
-footer {
-  margin-top: 50px;
-  color: #fffbe8;
-  font-size: 0.9rem;
-  animation: fadeIn 2s ease-in;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* 🧾 Order Form */
 .order-form {
   background: #fff;
   padding: 30px;
@@ -142,6 +128,25 @@ footer {
   color: white;
   border-radius: 10px;
   font-size: 1rem;
-  cursor: not-allowed; /* since form isn't active yet */
+  cursor: not-allowed; /* form not active yet */
 }
 
+/* 👣 Footer */
+footer {
+  margin-top: 50px;
+  color: #fffbe8;
+  font-size: 0.9rem;
+  animation: fadeIn 2s ease-in;
+}
+
+/* ✨ Smooth Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
