@@ -9,20 +9,48 @@
 <body>
   <header>
     <h1>Sweet Treats 🍬</h1>
-    <p>Your one-stop shop for delicious delights!</p>
+    <p>Craving something sweet? We’ve got you covered!</p>
   </header>
 
-  <section class="button-grid">
-    <button class="sweet-btn">Rasgulla</button>
-    <button class="sweet-btn">Ladoo</button>
-    <button class="sweet-btn">Gulab Jamun</button>
-    <button class="sweet-btn">Barfi</button>
-    <button class="sweet-btn">Kaju Katli</button>
-    <button class="sweet-btn">Jalebi</button>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for sweets...">
+  </div>
+
+  <section class="dropdown-section">
+    <select id="sweetDropdown">
+      <option disabled selected>Choose a sweet</option>
+      <option>Rasgulla</option>
+      <option>Ladoo</option>
+      <option>Gulab Jamun</option>
+      <option>Barfi</option>
+      <option>Kaju Katli</option>
+      <option>Jalebi</option>
+    </select>
+  </section>
+
+  <section class="featured">
+    <h2>🌟 Featured Sweet of the Day</h2>
+    <div class="card">
+      <h3>Gulab Jamun</h3>
+      <p>Soft, spongy & soaked in syrup — everyone’s favorite!</p>
+    </div>
   </section>
 
   <footer>
     <p>© 2025 Sweet Treats. All rights reserved.</p>
   </footer>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const dropdown = document.getElementById('sweetDropdown');
+
+    searchInput.addEventListener('input', () => {
+      const filter = searchInput.value.toLowerCase();
+      for (let option of dropdown.options) {
+        const text = option.text.toLowerCase();
+        option.hidden = !text.includes(filter) && option.value !== "";
+      }
+    });
+  </script>
 </body>
 </html>
