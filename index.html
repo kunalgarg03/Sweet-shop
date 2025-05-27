@@ -1,121 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sweet Treats</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fbc2eb, #a6c1ee);
+      color: #333;
+      padding: 20px;
+    }
+    
+    /* Cart Button */
+    .cart-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 10px 15px;
+      border-radius: 50px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 100;
+    }
+    
+    .cart-count {
+      background: #e91e63;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    
+    /* Product Cards */
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .add-to-cart {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    
+    /* Cart Modal */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    
+    .cart-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .checkout-btn {
+      background: #e91e63;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Sweet Treats 🍬</h1>
-    <p>Handcrafted traditional sweets made with love</p>
-    <!-- WhatsApp floating button -->
-    <a href="https://wa.me/91YOURPHONENUMBER" class="whatsapp-float" target="_blank">
-      <i class="fab fa-whatsapp"></i> Order Now
-    </a>
-  </header>
-
-  <!-- 🔍 Search Bar -->
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search for sweets...">
+  <!-- Cart Button -->
+  <div class="cart-btn" onclick="toggleCart()">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">0</span>
   </div>
-
-  <!-- 🌟 Featured Sweet Section -->
-  <section class="featured">
-    <h2>🌟 Today's Special</h2>
-    <div class="card">
-      <img src="https://source.unsplash.com/random/600x400/?gulab-jamun" alt="Gulab Jamun">
-      <div class="card-content">
-        <h3>Premium Gulab Jamun</h3>
-        <p>Our signature soft, spongy sweets soaked in rose-scented syrup</p>
-        <div class="price">₹199 (500g) | ₹350 (1kg)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Gulab Jamun')">
-          <i class="fas fa-shopping-cart"></i> Order Now
-        </button>
-      </div>
+  
+  <h1>Our Sweet Collection</h1>
+  
+  <!-- Product Listing -->
+  <div class="products">
+    <div class="product-card">
+      <h3>Gulab Jamun</h3>
+      <p>₹199 (500g)</p>
+      <button class="add-to-cart" onclick="addToCart('Gulab Jamun', 199)">Add to Cart</button>
     </div>
-  </section>
-
-  <!-- 🍬 Product Grid -->
-  <section class="products">
-    <h2>Our Sweet Collection</h2>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="https://source.unsplash.com/random/300x200/?rasgulla" alt="Rasgulla">
-        <h3>Bengali Rasgulla</h3>
-        <div class="price">₹179 (500g)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Rasgulla')">
-          <i class="fas fa-shopping-cart"></i> Order
-        </button>
-      </div>
-      <div class="product-card">
-        <img src="https://source.unsplash.com/random/300x200/?ladoo" alt="Ladoo">
-        <h3>Besan Ladoo</h3>
-        <div class="price">₹159 (500g)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Ladoo')">
-          <i class="fas fa-shopping-cart"></i> Order
-        </button>
-      </div>
-      <div class="product-card">
-        <img src="https://source.unsplash.com/random/300x200/?barfi" alt="Barfi">
-        <h3>Kaju Barfi</h3>
-        <div class="price">₹249 (500g)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Barfi')">
-          <i class="fas fa-shopping-cart"></i> Order
-        </button>
-      </div>
+    
+    <div class="product-card">
+      <h3>Rasgulla</h3>
+      <p>₹179 (500g)</p>
+      <button class="add-to-cart" onclick="addToCart('Rasgulla', 179)">Add to Cart</button>
     </div>
-  </section>
-
-  <!-- 📞 Contact Section -->
-  <section class="contact">
-    <h2>📞 Contact Us</h2>
-    <div class="contact-methods">
-      <div class="contact-card">
-        <i class="fas fa-phone-alt"></i>
-        <h3>Call Us</h3>
-        <p><a href="tel:+91YOURPHONENUMBER">+91 YOURPHONENUMBER</a></p>
-      </div>
-      <div class="contact-card">
-        <i class="fab fa-whatsapp"></i>
-        <h3>WhatsApp</h3>
-        <p><a href="https://wa.me/91YOURPHONENUMBER">Click to Chat</a></p>
-      </div>
-      <div class="contact-card">
-        <i class="fas fa-map-marker-alt"></i>
-        <h3>Visit Us</h3>
-        <p>123 Sweet Street, Dessert Town</p>
-      </div>
+    
+    <div class="product-card">
+      <h3>Ladoo</h3>
+      <p>₹159 (500g)</p>
+      <button class="add-to-cart" onclick="addToCart('Ladoo', 159)">Add to Cart</button>
     </div>
-  </section>
-
-  <!-- 🕒 Business Hours -->
-  <section class="hours">
-    <h2>🕒 Opening Hours</h2>
-    <div class="hours-grid">
-      <div class="day">Monday - Friday</div>
-      <div class="time">9:00 AM - 8:00 PM</div>
-      <div class="day">Saturday</div>
-      <div class="time">9:00 AM - 9:00 PM</div>
-      <div class="day">Sunday</div>
-      <div class="time">10:00 AM - 6:00 PM</div>
+  </div>
+  
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <h2>Your Order</h2>
+      <div id="cartItems"></div>
+      <p>Total: ₹<span id="cartTotal">0</span></p>
+      
+      <button class="checkout-btn" onclick="checkout()">
+        <i class="fab fa-whatsapp"></i> Complete Order via WhatsApp
+      </button>
+      
+      <button class="checkout-btn" style="background: #4CAF50;" onclick="siteOrder()">
+        <i class="fas fa-credit-card"></i> Order on Website
+      </button>
     </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Sweet Treats. All rights reserved.</p>
-  </footer>
-
+  </div>
+  
   <script>
-    // Simple search functionality
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase();
-      console.log("Searching for:", searchTerm);
-      // Will implement actual search functionality later
-    });
+    let cart = [];
+    
+    function addToCart(name, price) {
+      cart.push({name, price});
+      updateCart();
+    }
+    
+    function updateCart() {
+      document.querySelector('.cart-count').textContent = cart.length;
+      
+      let cartItemsHTML = '';
+      let total = 0;
+      
+      cart.forEach(item => {
+        cartItemsHTML += `
+          <div class="cart-item">
+            <span>${item.name}</span>
+            <span>₹${item.price}</span>
+          </div>
+        `;
+        total += item.price;
+      });
+      
+      document.getElementById('cartItems').innerHTML = cartItemsHTML;
+      document.getElementById('cartTotal').textContent = total;
+    }
+    
+    function toggleCart() {
+      document.getElementById('cartModal').style.display = 
+        document.getElementById('cartModal').style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function checkout() {
+      let message = "I want to order:\n";
+      let total = 0;
+      
+      cart.forEach(item => {
+        message += `- ${item.name} (₹${item.price})\n`;
+        total += item.price;
+      });
+      
+      message += `\nTotal: ₹${total}`;
+      
+      window.open(`https://wa.me/91YOURPHONENUMBER?text=${encodeURIComponent(message)}`);
+    }
+    
+    function siteOrder() {
+      alert("Order placed! We'll contact you shortly.");
+      cart = [];
+      updateCart();
+      toggleCart();
+    }
   </script>
 </body>
 </html>
