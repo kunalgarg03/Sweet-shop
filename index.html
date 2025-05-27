@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
+  <!-- Shopping Cart Icon -->
+  <div class="cart-icon" onclick="toggleCart()">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">0</span>
+  </div>
+
   <header>
     <h1>Sweet Treats 🍬</h1>
     <p>Handcrafted traditional sweets made with love</p>
@@ -31,8 +37,13 @@
         <h3>Premium Gulab Jamun</h3>
         <p>Our signature soft, spongy sweets soaked in rose-scented syrup</p>
         <div class="price">₹199 (500g) | ₹350 (1kg)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Gulab Jamun')">
-          <i class="fas fa-shopping-cart"></i> Order Now
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="adjustQuantity('gulab-jamun-500g', -1)">-</button>
+          <span id="gulab-jamun-500g-qty">0</span>
+          <button class="qty-btn" onclick="adjustQuantity('gulab-jamun-500g', 1)">+</button>
+        </div>
+        <button class="order-btn" onclick="addToCart('Gulab Jamun (500g)', 199, 'gulab-jamun-500g')">
+          <i class="fas fa-cart-plus"></i> Add to Cart
         </button>
       </div>
     </div>
@@ -46,28 +57,63 @@
         <img src="https://source.unsplash.com/random/300x200/?rasgulla" alt="Rasgulla">
         <h3>Bengali Rasgulla</h3>
         <div class="price">₹179 (500g)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Rasgulla')">
-          <i class="fas fa-shopping-cart"></i> Order
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="adjustQuantity('rasgulla-500g', -1)">-</button>
+          <span id="rasgulla-500g-qty">0</span>
+          <button class="qty-btn" onclick="adjustQuantity('rasgulla-500g', 1)">+</button>
+        </div>
+        <button class="order-btn" onclick="addToCart('Rasgulla (500g)', 179, 'rasgulla-500g')">
+          <i class="fas fa-cart-plus"></i> Add to Cart
         </button>
       </div>
       <div class="product-card">
         <img src="https://source.unsplash.com/random/300x200/?ladoo" alt="Ladoo">
         <h3>Besan Ladoo</h3>
         <div class="price">₹159 (500g)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Ladoo')">
-          <i class="fas fa-shopping-cart"></i> Order
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="adjustQuantity('ladoo-500g', -1)">-</button>
+          <span id="ladoo-500g-qty">0</span>
+          <button class="qty-btn" onclick="adjustQuantity('ladoo-500g', 1)">+</button>
+        </div>
+        <button class="order-btn" onclick="addToCart('Ladoo (500g)', 159, 'ladoo-500g')">
+          <i class="fas fa-cart-plus"></i> Add to Cart
         </button>
       </div>
       <div class="product-card">
         <img src="https://source.unsplash.com/random/300x200/?barfi" alt="Barfi">
         <h3>Kaju Barfi</h3>
         <div class="price">₹249 (500g)</div>
-        <button class="order-btn" onclick="window.open('https://wa.me/91YOURPHONENUMBER?text=I want to order Barfi')">
-          <i class="fas fa-shopping-cart"></i> Order
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="adjustQuantity('barfi-500g', -1)">-</button>
+          <span id="barfi-500g-qty">0</span>
+          <button class="qty-btn" onclick="adjustQuantity('barfi-500g', 1)">+</button>
+        </div>
+        <button class="order-btn" onclick="addToCart('Kaju Barfi (500g)', 249, 'barfi-500g')">
+          <i class="fas fa-cart-plus"></i> Add to Cart
         </button>
       </div>
     </div>
   </section>
+
+  <!-- Shopping Cart Modal -->
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="toggleCart()">&times;</span>
+      <h2>Your Sweet Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total">
+        <strong>Total: ₹<span id="cartTotal">0</span></strong>
+      </div>
+      <div class="cart-actions">
+        <button class="whatsapp-btn" onclick="checkoutViaWhatsApp()">
+          <i class="fab fa-whatsapp"></i> Order via WhatsApp
+        </button>
+        <button class="checkout-btn" onclick="checkoutOnSite()">
+          <i class="fas fa-credit-card"></i> Checkout
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- 📞 Contact Section -->
   <section class="contact">
@@ -109,13 +155,112 @@
   </footer>
 
   <script>
-    // Simple search functionality
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase();
-      console.log("Searching for:", searchTerm);
-      // Will implement actual search functionality later
-    });
+    // Shopping Cart Functionality
+    let cart = [];
+    let quantities = {};
+
+    function toggleCart() {
+      document.getElementById('cartModal').style.display = 
+        document.getElementById('cartModal').style.display === 'block' ? 'none' : 'block';
+    }
+
+    function adjustQuantity(productId, change) {
+      if (!quantities[productId]) quantities[productId] = 0;
+      quantities[productId] = Math.max(0, quantities[productId] + change);
+      document.getElementById(`${productId}-qty`).textContent = quantities[productId];
+    }
+
+    function addToCart(name, price, productId) {
+      const quantity = quantities[productId] || 0;
+      if (quantity <= 0) return;
+      
+      // Check if item already in cart
+      const existingItem = cart.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({ name, price, quantity });
+      }
+      
+      updateCart();
+      quantities[productId] = 0;
+      document.getElementById(`${productId}-qty`).textContent = '0';
+      toggleCart();
+    }
+
+    function updateCart() {
+      const cartItemsElement = document.getElementById('cartItems');
+      let cartHTML = '';
+      let total = 0;
+      
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        cartHTML += `
+          <div class="cart-item">
+            <div class="item-name">${item.name}</div>
+            <div class="item-qty">${item.quantity} × ₹${item.price}</div>
+            <div class="item-total">₹${itemTotal}</div>
+            <button class="remove-btn" onclick="removeFromCart('${item.name}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        `;
+      });
+      
+      cartItemsElement.innerHTML = cartHTML || '<p>Your cart is empty</p>';
+      document.getElementById('cartTotal').textContent = total;
+      document.querySelector('.cart-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    function removeFromCart(name) {
+      cart = cart.filter(item => item.name !== name);
+      updateCart();
+    }
+
+    function checkoutViaWhatsApp() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      let message = "Hello! I'd like to order:\n\n";
+      let total = 0;
+      
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        message += `- ${item.name} (Qty: ${item.quantity}) - ₹${itemTotal}\n`;
+        total += itemTotal;
+      });
+      
+      message += `\nTotal: ₹${total}\n\nMy details:\nName: \nPhone: \nAddress: `;
+      
+      window.open(`https://wa.me/91YOURPHONENUMBER?text=${encodeURIComponent(message)}`);
+    }
+
+    function checkoutOnSite() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      alert('Order placed successfully! We will contact you shortly.');
+      cart = [];
+      updateCart();
+      toggleCart();
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('cartModal');
+      if (event.target === modal) {
+        toggleCart();
+      }
+    }
+
+    // Initialize modal display
+    document.getElementById('cartModal').style.display = 'none';
   </script>
 </body>
 </html>
