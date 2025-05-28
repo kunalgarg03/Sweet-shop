@@ -409,7 +409,7 @@
     <h1>Sweet Treats 🍬</h1>
     <p>Handcrafted traditional sweets made with love</p>
     <!-- WhatsApp floating button -->
-    <a href="https://wa.me/91YOURPHONENUMBER" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/9971705547" class="whatsapp-float" target="_blank">
       <i class="fab fa-whatsapp"></i> Order Now
     </a>
   </header>
@@ -522,7 +522,7 @@
       <div class="contact-card">
         <i class="fas fa-phone-alt"></i>
         <h3>Call Us</h3>
-        <p><a href="tel:+91YOURPHONENUMBER">+91 YOURPHONENUMBER</a></p>
+        <p><a href="tel:+9971705547">+91 9971705547</a></p>
       </div>
       <div class="contact-card">
         <i class="fab fa-whatsapp"></i>
@@ -558,20 +558,29 @@
     let cart = [];
     let quantities = {};
     
-    // Toggle cart visibility
+    // Initialize quantities from localStorage if available
+    if (localStorage.getItem('cart')) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+      cart.forEach(item => {
+        quantities[item.id] = item.quantity;
+        if (document.getElementById(`${item.id}-qty`)) {
+          document.getElementById(`${item.id}-qty`).textContent = item.quantity;
+        }
+      });
+      updateCartCount();
+    }
+    
     function toggleCart() {
       document.getElementById('cartModal').style.display = 
         document.getElementById('cartModal').style.display === 'block' ? 'none' : 'block';
     }
     
-    // Adjust quantity for products
     function adjustQuantity(productId, change) {
       if (!quantities[productId]) quantities[productId] = 0;
       quantities[productId] = Math.max(0, quantities[productId] + change);
       document.getElementById(`${productId}-qty`).textContent = quantities[productId];
     }
     
-    // Add item to cart
     function addToCart(name, price, productId, image) {
       const quantity = quantities[productId] || 0;
       if (quantity <= 0) {
@@ -579,23 +588,27 @@
         return;
       }
       
-      // Check if item already in cart
-      const existingItem = cart.find(item => item.name === name);
+      const existingItem = cart.find(item => item.id === productId);
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {
-        cart.push({ name, price, quantity, image });
+        cart.push({ 
+          name, 
+          price, 
+          quantity, 
+          image,
+          id: productId
+        });
       }
       
-      // Reset quantity
       quantities[productId] = 0;
       document.getElementById(`${productId}-qty`).textContent = '0';
       
+      saveCart();
       updateCart();
       toggleCart();
     }
     
-    // Update cart display
     function updateCart() {
       const cartItemsElement = document.getElementById('cartItems');
       let cartHTML = '';
@@ -612,12 +625,12 @@
               ${item.name}
             </div>
             <div class="item-qty">
-              <button class="qty-btn" onclick="updateCartItem('${item.name}', -1)">-</button>
+              <button class="qty-btn" onclick="updateCartItem('${item.id}', -1)">-</button>
               ${item.quantity}
-              <button class="qty-btn" onclick="updateCartItem('${item.name}', 1)">+</button>
+              <button class="qty-btn" onclick="updateCartItem('${item.id}', 1)">+</button>
             </div>
             <div class="item-total">₹${itemTotal}</div>
-            <div class="remove-item" onclick="removeFromCart('${item.name}')">
+            <div class="remove-item" onclick="removeFromCart('${item.id}')">
               <i class="fas fa-trash"></i>
             </div>
           </div>
@@ -626,25 +639,41 @@
       
       cartItemsElement.innerHTML = cartHTML || '<div class="empty-cart">Your cart is empty</div>';
       document.getElementById('cartTotal').textContent = `₹${total}`;
-      document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      updateCartCount();
     }
     
-    // Update item quantity in cart
-    function updateCartItem(name, change) {
-      const item = cart.find(item => item.name === name);
+    function updateCartItem(productId, change) {
+      const item = cart.find(item => item.id === productId);
       if (item) {
         item.quantity = Math.max(1, item.quantity + change);
+        quantities[productId] = item.quantity;
+        if (document.getElementById(`${productId}-qty`)) {
+          document.getElementById(`${productId}-qty`).textContent = item.quantity;
+        }
+        saveCart();
         updateCart();
       }
     }
     
-    // Remove item from cart
-    function removeFromCart(name) {
-      cart = cart.filter(item => item.name !== name);
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      quantities[productId] = 0;
+      if (document.getElementById(`${productId}-qty`)) {
+        document.getElementById(`${productId}-qty`).textContent = '0';
+      }
+      saveCart();
       updateCart();
     }
     
-    // Checkout via WhatsApp
+    function updateCartCount() {
+      document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+    
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+    
     function checkoutViaWhatsApp() {
       if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -662,10 +691,9 @@
       
       message += `\nTotal: ₹${total}\n\nMy details:\nName: \nPhone: \nAddress: `;
       
-      window.open(`https://wa.me/91YOURPHONENUMBER?text=${encodeURIComponent(message)}`);
+      window.open(`https://wa.me/9971705547?text=${encodeURIComponent(message)}`);
     }
     
-    // Checkout on site
     function checkoutOnSite() {
       if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -673,12 +701,18 @@
       }
       
       alert("Order placed! We'll contact you shortly.");
+      cart.forEach(item => {
+        quantities[item.id] = 0;
+        if (document.getElementById(`${item.id}-qty`)) {
+          document.getElementById(`${item.id}-qty`).textContent = '0';
+        }
+      });
       cart = [];
+      saveCart();
       updateCart();
       toggleCart();
     }
     
-    // Close modal when clicking outside
     window.onclick = function(event) {
       if (event.target === document.getElementById('cartModal')) {
         toggleCart();
